@@ -33,16 +33,32 @@ class Board
         cell.State = state;
     }
 
+    public void MarkCellHit(Position position)
+    {
+        var (col, row) = position;
+        int column = (int)col;
+        Cell cell = board[row][column];
+        var isCellHit = cell.State == CellState.PLACED;
+        var newCellState = isCellHit ? CellState.HIT : CellState.MISS;
+        cell.State = newCellState;
+    }
+
     private bool IsCellOccupied(int col, int row)
     {
         Cell cell = board[row][col];
         return cell.State != CellState.EMPTY;
     }
 
+    private bool IsCellValidHit(int col, int row)
+    {
+        Cell cell = board[row][col];
+        return cell.State == CellState.EMPTY || cell.State == CellState.PLACED;
+    }
+
     private bool IsCellHit(int col, int row)
     {
         Cell cell = board[row][col];
-        return cell.State != CellState.PLACED;
+        return cell.State == CellState.PLACED;
     }
 
 
@@ -55,6 +71,15 @@ class Board
         }
         int colNum = (int)col;
         return colNum <= board.Count() && row <= board.Count();
+    }
+
+    public bool IsValidHit(Position position)
+    {
+        var (col, row) = position;
+        var column = (int)col;
+
+        return IsCellValidHit(column, row);
+
     }
 
     public bool IsValidPlacement(Position position, int size, Direction direction)

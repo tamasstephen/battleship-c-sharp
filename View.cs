@@ -51,6 +51,7 @@ class View
           CellState.HIT => "X|",
           CellState.EMPTY => "O|",
           CellState.MISS => "-|",
+          CellState.PLACED => "O|",
           _ => throw new ArgumentOutOfRangeException()
       };
 
