@@ -29,7 +29,7 @@ class Player
 
     public override string ToString()
     {
-        return "Player {playerNumber}";
+        return $"Player {playerNumber}";
     }
 
 }

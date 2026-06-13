@@ -44,6 +44,11 @@ class Game
             position = view.PromptForGuess($"Player {player.ToString()} place your boat");
             direction = view.PromptForDirection();
             isPlacementSuccess = player.board().IsValidPlacement(position, ship.GetSize(), direction);
+            if (!isPlacementSuccess)
+            {
+                view.Print("Invalid Placement!\n Try Again!");
+
+            }
         }
         List<Cell> cells = player.board().PlaceBoat(position, ship.GetSize(), direction);
         ship.PlaceShip(cells);

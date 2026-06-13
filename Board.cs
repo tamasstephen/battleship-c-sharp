@@ -88,8 +88,6 @@ class Board
         var column = (int)col;
         var colAsArg = direction == Direction.HORIZONTAL ? column + increment : column;
         var rowAsArg = direction == Direction.HORIZONTAL ? row : row + increment;
-        Console.WriteLine($"column: {colAsArg}");
-        Console.WriteLine($"row: {rowAsArg}");
         return (colAsArg, rowAsArg);
     }
 

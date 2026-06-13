@@ -14,6 +14,11 @@ class View
         Console.WriteLine(boardAsString);
     }
 
+    public void Print(String msg)
+    {
+        Console.WriteLine(msg);
+    }
+
     private string BuildBoardAsString(IReadOnlyList<List<Cell>> board, Func<CellState, string> mapper)
     {
         string boardAsString = "  |" + String.Join("|", columns) + "|\n";
