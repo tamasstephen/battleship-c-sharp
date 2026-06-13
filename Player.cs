@@ -1,6 +1,6 @@
 class Player
 {
-    static int playerNumber = 0;
+    public static int playerNumber = 0;
     private Board _board = new Board();
     public int PlayerNumber { get; }
     private List<Ship> ships = new List<Ship>();
@@ -29,7 +29,7 @@ class Player
 
     public override string ToString()
     {
-        return $"Player {playerNumber}";
+        return $"Player {PlayerNumber}";
     }
 
 }
