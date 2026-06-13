@@ -1,0 +1,1 @@
+public readonly record struct Position(Column Col, int Row);

@@ -1,26 +1,97 @@
-class Board 
+class Board
 {
 
-  private List<List<string>> board;
+    private List<List<Cell>> board = new List<List<Cell>>();
 
 
-  public Board(){
-    GenerateBoard();
-  }
-
-  private void GenerateBoard(){
-    List<List<string>> newBoard = new List<List<string>>();
-    for (int i = 0; i < 10; i++){
-     newBoard.Add(new List<string>());
-     for (int j = 0; j < 10; j++){
-      newBoard[i].Add("");
-     }
+    public Board()
+    {
+        GenerateBoard();
     }
-   board = newBoard;
-  }
 
-  public List<List<string>> ToString(){
-    return board;
-  }
+    public IReadOnlyList<List<Cell>> GameBoard => board;
+
+
+    private void GenerateBoard()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            board.Add(new List<Cell>());
+            for (int j = 0; j < 10; j++)
+            {
+                Cell cell = new Cell(CellState.EMPTY);
+                board[i].Add(cell);
+            }
+        }
+    }
+
+    public void MarkCell(Position position, CellState state)
+    {
+        var (col, row) = position;
+        int column = (int)col;
+        Cell cell = board[row][column];
+        cell.State = state;
+    }
+
+    private bool IsCellOccupied(int col, int row)
+    {
+        Cell cell = board[row][col];
+        return cell.State != CellState.EMPTY;
+    }
+
+    private bool IsCellHit(int col, int row)
+    {
+        Cell cell = board[row][col];
+        return cell.State != CellState.PLACED;
+    }
+
+
+    private bool IsInBoardBounds(Position position)
+    {
+        var (col, row) = position;
+        if (col < 0 || row < 0)
+        {
+            return false;
+        }
+        int colNum = (int)col;
+        return colNum <= board.Count() && row <= board.Count();
+    }
+
+    public bool IsValidPlacement(Position position, int size, Direction direction)
+    {
+        for (int i = 0; i < size; i++)
+        {
+            var (col, row) = GetCoordinates(position, direction, i);
+            if (IsCellOccupied(col, row))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public List<Cell> PlaceBoat(Position position, int size, Direction direction)
+    {
+        List<Cell> cells = new List<Cell>();
+        for (int i = 0; i < size; i++)
+        {
+            var (col, row) = GetCoordinates(position, direction, i);
+            board[row][col].State = CellState.PLACED;
+            cells.Add(board[row][col]);
+        }
+        return cells;
+    }
+
+    private (int, int) GetCoordinates(Position position, Direction direction, int increment)
+    {
+        var (col, row) = position;
+        var column = (int)col;
+        var colAsArg = direction == Direction.HORIZONTAL ? column + increment : column;
+        var rowAsArg = direction == Direction.HORIZONTAL ? row : row + increment;
+        Console.WriteLine($"column: {colAsArg}");
+        Console.WriteLine($"row: {rowAsArg}");
+        return (colAsArg, rowAsArg);
+    }
+
 
 }
